@@ -1,10 +1,16 @@
 import express from 'express';
 import { fileURLToPath } from 'url';
 import path from 'path';
+
+
 // Define the the application environment
 const NODE_ENV = process.env.NODE_ENV?.toLowerCase() || 'production';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const app = express();
+
+// Define the port number the server will listen on
+const PORT = process.env.PORT || 3000;
 
 /**
   * Configure Express middleware
@@ -12,11 +18,6 @@ const __dirname = path.dirname(__filename);
 
 // Serve static files from the public directory
 app.use(express.static(path.join(__dirname, 'public')));
-
-// Define the port number the server will listen on
-const PORT = process.env.PORT || 3000;
-
-const app = express();
 
 
 /**
