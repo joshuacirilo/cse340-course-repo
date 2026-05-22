@@ -75,6 +75,76 @@ VALUES
 (3, 'Career Orientation Day', 'Give career guidance and professional advice to students.', 'San José Pinula', '2026-09-02');
 
 
+-- ========================================
+-- Service Project Categories
+-- ========================================
+CREATE TABLE IF NOT EXISTS categories (
+    category_id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE IF NOT EXISTS service_project_categories (
+    project_id INT NOT NULL,
+    category_id INT NOT NULL,
+
+    CONSTRAINT pk_service_project_categories
+        PRIMARY KEY (project_id, category_id),
+
+    CONSTRAINT fk_service_project_categories_projects
+        FOREIGN KEY (project_id)
+        REFERENCES service_projects(project_id)
+        ON DELETE CASCADE,
+
+    CONSTRAINT fk_service_project_categories_categories
+        FOREIGN KEY (category_id)
+        REFERENCES categories(category_id)
+        ON DELETE CASCADE
+);
+
+
+--Insert data in categories
+INSERT INTO categories (name)
+VALUES
+('Environmental'),
+('Educational'),
+('Community Service'),
+('Health and Wellness')
+ON CONFLICT (name) DO NOTHING;
+
+
+-- connecting projects to categories
+INSERT INTO service_project_categories (project_id, category_id)
+VALUES
+-- BrightFuture Builders projects
+(1, 3), -- Community Food Drive: Community Service
+(2, 3), -- Neighborhood Cleanup: Community Service
+(2, 1), -- Neighborhood Cleanup: Environmental
+(3, 3), -- Clothing Donation Campaign: Community Service
+(4, 2), -- School Supplies Drive: Educational
+(5, 4), -- Senior Citizen Support Day: Health and Wellness
+
+-- GreenHarvest Growers projects
+(6, 1), -- Tree Planting Project: Environmental
+(7, 1), -- River Cleanup Activity: Environmental
+(8, 1), -- Recycling Awareness Workshop: Environmental
+(8, 2), -- Recycling Awareness Workshop: Educational
+(9, 1), -- Community Garden Setup: Environmental
+(9, 3), -- Community Garden Setup: Community Service
+(10, 1), -- Environmental Education Day: Environmental
+(10, 2), -- Environmental Education Day: Educational
+
+-- UnityServe Volunteers projects
+(11, 2), -- Free Technology Workshop: Educational
+(12, 2), -- English Practice Club: Educational
+(13, 2), -- Math Tutoring Program: Educational
+(14, 2), -- Resume Building Workshop: Educational
+(15, 2)  -- Career Orientation Day: Educational
+ON CONFLICT (project_id, category_id) DO NOTHING;
+
+
+
+
+
 -- tests
 
 SELECT * FROM organizations;
@@ -90,4 +160,7 @@ FROM service_projects sp
 JOIN organizations o
     ON sp.organization_id = o.organization_id
 ORDER BY sp.organization_id, sp.date;
+
+
+SELECT * FROM categories;
 
