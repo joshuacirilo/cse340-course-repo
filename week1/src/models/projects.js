@@ -16,31 +16,14 @@ const getAllProjects = async () => {
         ORDER BY sp.date;
     `;
 
-    const result = await db.query(query);
+      const queryParams = [organizationId];
+      const result = await db.query(query, queryParams);
 
-    return result.rows;
+      return result.rows;
 };
 
-const getProjectsByOrganizationId = async (organizationId) => {
-    const query = `
-        SELECT
-            sp.project_id,
-            sp.organization_id,
-            sp.title,
-            sp.description,
-            sp.location,
-            sp.date,
-            o.name AS organization_name
-        FROM public.service_projects sp
-        JOIN public.organizations o
-            ON sp.organization_id = o.organization_id
-        WHERE sp.organization_id = $1
-        ORDER BY sp.date;
-    `;
-    const queryParams = [organizationId];
-    const result = await db.query(query, queryParams);
+export { getAllProjects };
 
-    return result.rows;
-};
 
+// Export the model functions
 export { getAllProjects, getProjectsByOrganizationId };
