@@ -12,6 +12,7 @@
     </p>
 
     <h3>Categories</h3>
+    <p><a href="/assign-categories/<%= projectDetails.project_id %>">Edit Categories</a></p>
     <ul>
         <% categories.forEach(category => { %>
             <li><a href="/category/<%= category.category_id %>"><%= category.name %></a></li>
