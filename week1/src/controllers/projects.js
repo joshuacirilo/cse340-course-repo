@@ -19,4 +19,6 @@ const showProjectDetailsPage = async (req, res) => {
     res.render('project', { title, projectDetails, categories });
 };
 
+
 export { showProjectsPage, showProjectDetailsPage };
+
